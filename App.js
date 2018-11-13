@@ -1,5 +1,7 @@
+// @flow
+
 import React, { Component } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ActivityIndicator, StatusBar } from "react-native";
 import { Asset } from "expo";
 
 import { Discover } from "./src/components/Discover";
@@ -50,7 +52,11 @@ const elements = [
   }
 ];
 
-export default class App extends Component {
+type AppState = {
+  ready: boolean
+};
+
+export default class App extends Component<{}, AppState> {
   state = {
     ready: false
   };
@@ -73,8 +79,19 @@ export default class App extends Component {
   }
 
   render() {
+    const { ready } = this.state;
+
+    if (ready) {
+      return (
+        <View style={styles.container}>
+          <ActivityIndicator size="large" color="black" />
+        </View>
+      );
+    }
+
     return (
-      <View style={styles.container}>
+      <View style={{ flex: 1 }}>
+        <StatusBar barStyle="light-content" backgroundColor="black" />
         <Discover />
       </View>
     );
@@ -84,7 +101,7 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#1E4363",
     alignItems: "center",
     justifyContent: "center"
   }
